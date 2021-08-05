@@ -2,6 +2,7 @@ import * as cdk from "@aws-cdk/core";
 import * as iam from "@aws-cdk/aws-iam";
 import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as lambda from "@aws-cdk/aws-lambda";
+import { Duration } from "@aws-cdk/core";
 
 export class CvcalendarCdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -10,7 +11,8 @@ export class CvcalendarCdkStack extends cdk.Stack {
     const handler = new lambda.Function(this, "calnedar", {
       runtime: lambda.Runtime.NODEJS_14_X,
       code: lambda.Code.fromAsset("../cvcalender"),
-      handler: "dist/serverless.handler"
+      handler: "dist/serverless.handler",
+      timeout: Duration.seconds(12)
     });
 
     const lambdaRole = new iam.PolicyStatement({
